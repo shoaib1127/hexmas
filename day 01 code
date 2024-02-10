@@ -1,0 +1,47 @@
+#include <stdio.h>
+
+// Structure to represent a point (x, y)
+typedef struct {
+    double x;
+    double y;
+} Point;
+
+// Lagrange interpolation function
+double lagrange_interpolation(Point points[], int n, double x) {
+    double result = 0.0;
+    for (int i = 0; i < n; i++) {
+        double term = points[i].y;
+        for (int j = 0; j < n; j++) {
+            if (j != i) {
+                term *= (x - points[j].x) / (points[i].x - points[j].x);
+            }
+        }
+        result += term;
+    }
+    return result;
+}
+
+int main() {
+    // Define the points
+    Point points[6];
+    printf("Enter the six points (x, y):\n");
+    for (int i = 0; i < 6; i++) {
+        printf("Point %d: ", i+1);
+        scanf("%lf %lf", &points[i].x, &points[i].y);
+    }
+
+    // Evaluate the secret using Lagrange interpolation at x=0
+    double modulus = 2147483647; // Choose your modulus value
+    double secret = lagrange_interpolation(points, 6, 0) + modulus;
+    secret = fmod(secret, modulus); // Apply modulus operation
+
+    // Print the secret
+    printf("Secret: %.0f\n", secret);
+
+    return 0;
+}
+
+Note:-
+
+If you dont have pc just copy paste above code here (https://www.programiz.com/c-programming/online-compiler/) click run.
+And enter input any 6 combinations from mission page like 1 (press enter), 116688721(press enter) and enter secret key received on mission page.
